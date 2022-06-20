@@ -1,6 +1,8 @@
 package org.example.toby.user.dao;
 
 import org.example.toby.user.domain.User;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.sql.SQLException;
 
@@ -10,11 +12,11 @@ import java.sql.SQLException;
  */
 public class UserDaoTest {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        DaoFactory daoFactory = new DaoFactory();
-        UserDao dao = daoFactory.userDao();
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(DaoFactory.class);
+        UserDao dao = ctx.getBean("userDao", UserDao.class);
 
         User user = new User();
-        user.setId("hunseong1");
+        user.setId("hunseong12");
         user.setName("훈성");
         user.setPassword("1234");
 
