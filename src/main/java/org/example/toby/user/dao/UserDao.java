@@ -2,6 +2,7 @@ package org.example.toby.user.dao;
 
 import org.example.toby.user.domain.User;
 
+import javax.sql.DataSource;
 import java.sql.*;
 
 /**
@@ -9,14 +10,14 @@ import java.sql.*;
  * @date : 2022-06-21
  */
 public class UserDao {
-    private ConnectionMaker connectionMaker;
+    private DataSource dataSource;
 
-    public UserDao(ConnectionMaker simpleConnectionMaker) {
-        this.connectionMaker = simpleConnectionMaker;
+    public UserDao(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
-    public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection c = this.connectionMaker.makeConnection();
+    public void add(User user) throws SQLException {
+        Connection c = this.dataSource.getConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "insert into users(id, name, password) values(?,?,?)");
@@ -30,8 +31,8 @@ public class UserDao {
         c.close();
     }
 
-    public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection c = this.connectionMaker.makeConnection();
+    public User get(String id) throws SQLException {
+        Connection c = this.dataSource.getConnection();
         PreparedStatement ps = c
                 .prepareStatement("select * from users where id = ?");
         ps.setString(1, id);

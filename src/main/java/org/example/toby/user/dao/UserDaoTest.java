@@ -3,8 +3,10 @@ package org.example.toby.user.dao;
 import org.example.toby.user.domain.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.util.StringUtils;
 
 import java.sql.SQLException;
+import java.util.Random;
 
 /**
  * @author : Hunseong-Park
@@ -16,7 +18,7 @@ public class UserDaoTest {
         UserDao dao = ctx.getBean("userDao", UserDao.class);
 
         User user = new User();
-        user.setId("hunseong12");
+        user.setId(String.valueOf(new Random().nextInt(300)));
         user.setName("훈성");
         user.setPassword("1234");
 
