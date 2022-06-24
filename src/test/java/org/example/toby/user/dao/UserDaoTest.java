@@ -22,10 +22,10 @@ class UserDaoTest {
 
         // given
         UserDao dao = context.getBean("userDao", UserDao.class);
-        User user = new User();
-        user.setId("hunseong2");
-        user.setName("박훈성");
-        user.setPassword("1234");
+        dao.deleteAll();
+        assertThat(dao.getCount()).isEqualTo(0);
+
+        User user = new User("hunseong2", "박훈성", "1234");
 
         // when
         dao.add(user);
@@ -34,5 +34,29 @@ class UserDaoTest {
         // then
         assertThat(findUser.getName()).isEqualTo(user.getName());
         assertThat(findUser.getPassword()).isEqualTo(user.getPassword());
+        assertThat(dao.getCount()).isEqualTo(1);
+    }
+
+    @Test
+    void count() throws SQLException {
+
+        // given
+        UserDao dao = context.getBean("userDao", UserDao.class);
+        User user1 = new User("a", "aa", "aaa");
+        User user2 = new User("b", "bb", "bbb");
+        User user3 = new User("c", "cc", "ccc");
+
+        // when & then
+        dao.deleteAll();
+        assertThat(dao.getCount()).isEqualTo(0);
+
+        dao.add(user1);
+        assertThat(dao.getCount()).isEqualTo(1);
+
+        dao.add(user2);
+        assertThat(dao.getCount()).isEqualTo(2);
+
+        dao.add(user3);
+        assertThat(dao.getCount()).isEqualTo(3);
     }
 }
